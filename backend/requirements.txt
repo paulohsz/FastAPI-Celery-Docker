@@ -1,0 +1,10 @@
+FastAPI==0.116.2
+uvicorn[standard]==0.24.0
+pydantic[email]==2.11.9
+SQLAlchemy==2.0.43
+pydantic-settings==2.11
+alembic==1.16.5
+celery==5.4.0
+flower==2.0.1
+asyncpg==0.30.0
+psycopg2-binary==2.9.10

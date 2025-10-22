@@ -1,0 +1,86 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "FastAPI Debug (Remote Attach)",
+            "type": "debugpy",
+            "request": "attach",
+            "connect": {
+                "host": "localhost",
+                "port": 5678
+            },
+            "pathMappings": [
+                {
+                    "localRoot": "${workspaceFolder}/backend",
+                    "remoteRoot": "/app"
+                }
+            ],
+            "justMyCode": false
+        },
+        {
+            "name": "FastAPI Debug (Local)",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/backend/app/main.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/backend",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/backend",
+                "DATABASE_URL": "postgresql+asyncpg://postgres:postgres@localhost:5432/appdb",
+                "DATABASE_URL_SYNC": "postgresql+psycopg2://postgres:postgres@localhost:5432/appdb",
+                "CELERY_BROKER_URL": "amqp://guest:guest@localhost:5672//",
+                "DEBUG": "True"
+            },
+            "justMyCode": false
+        },
+        {
+            "name": "Celery Worker Debug (Local)",
+            "type": "debugpy",
+            "request": "launch", 
+            "module": "celery",
+            "args": [
+                "-A", "app.celery_app",
+                "worker",
+                "--loglevel=debug"
+            ],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/backend",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/backend",
+                "DATABASE_URL_SYNC": "postgresql+psycopg2://postgres:postgres@localhost:5432/appdb",
+                "CELERY_BROKER_URL": "amqp://guest:guest@localhost:5672//",
+                "DEBUG": "True"
+            },
+            "justMyCode": false
+        },
+        {
+            "name": "Python: Current File",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/backend",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/backend"
+            },
+            "justMyCode": false
+        },
+        {
+            "name": "Pytest Debug",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "pytest",
+            "args": [
+                "${workspaceFolder}/backend/tests/",
+                "-v",
+                "--tb=short"
+            ],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/backend",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/backend"
+            },
+            "justMyCode": false
+        }
+    ]
+}

@@ -1,0 +1,115 @@
+{
+  "name": "FastAPI + Celery Backend",
+  "dockerComposeFile": ["../docker-compose.yml"],
+  "service": "backend",
+  "workspaceFolder": "/backend/app",
+  
+  // Features to install in the container
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+
+  // Extensions to install automatically when attaching to container
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        // Python Development
+        "ms-python.python",
+        "ms-python.debugpy",
+        "ms-python.flake8",
+        "ms-python.pylint",
+        "ms-python.black-formatter",
+        "ms-python.isort",
+        "ms-toolsai.jupyter",
+        
+        // FastAPI/Web Development
+        "ms-python.autopep8",
+        "wholroyd.jinja",
+        "ms-vscode.vscode-json",
+        
+        // General Development
+        "ms-vscode.extension-test-runner",
+        "ms-vscode.test-adapter-converter",
+        "redhat.vscode-yaml",
+        "ms-vscode.vscode-docker",
+        
+        // Git & Collaboration
+        "eamodio.gitlens",
+        "github.vscode-pull-request-github",
+        
+        // Code Quality & Formatting
+        "ms-vscode.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "streetsidesoftware.code-spell-checker",
+        
+        // Productivity
+        "ms-vscode.vscode-icons",
+        "bradlc.vscode-tailwindcss",
+        "ms-vscode.remote-containers",
+        
+        // Database (for PostgreSQL)
+        "ms-ossdata.vscode-postgresql",
+        
+        // API Development
+        "humao.rest-client",
+        "42crunch.vscode-openapi"
+      ],
+      
+      // Settings that will be applied when working in the container
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/local/bin/python",
+        "python.linting.enabled": true,
+        "python.linting.pylintEnabled": true,
+        "python.linting.flake8Enabled": true,
+        "python.formatting.provider": "black",
+        "python.formatting.blackPath": "/usr/local/bin/black",
+        "python.linting.pylintPath": "/usr/local/bin/pylint",
+        "python.linting.flake8Path": "/usr/local/bin/flake8",
+        "python.testing.pytestEnabled": true,
+        "python.testing.unittestEnabled": false,
+        "python.testing.pytestPath": "/usr/local/bin/pytest",
+        "python.testing.pytestArgs": [
+          "tests"
+        ],
+        "files.watcherExclude": {
+          "**/.git/objects/**": true,
+          "**/.git/subtree-cache/**": true,
+          "**/node_modules/**": true,
+          "**/__pycache__/**": true,
+          "**/.pytest_cache/**": true
+        },
+        "terminal.integrated.shell.linux": "/bin/bash",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+          "source.organizeImports": "explicit"
+        }
+      }
+    }
+  },
+
+  // Ports to forward from the container
+  "forwardPorts": [8060],
+  "portsAttributes": {
+    "8060": {
+      "label": "FastAPI Backend",
+      "onAutoForward": "notify"
+    }
+  },
+
+  // Commands to run after the container is created
+  "postCreateCommand": "pip install --upgrade pip && pip install -e .",
+  
+  // Use the root user for better permissions
+  "remoteUser": "root",
+  
+  // Environment variables
+  "containerEnv": {
+    "PYTHONPATH": "/app"
+  },
+
+  // Mount the Docker socket for Docker-in-Docker scenarios
+  "mounts": [
+    "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
+  ]
+}
