@@ -4,7 +4,11 @@ from httpx import ASGITransport, AsyncClient
 from app.main import app
 
 
-@pytest.mark.asyncio
+# Mark all tests in this module as integration and async tests
+pytestmark = [pytest.mark.integration, pytest.mark.asyncio]
+
+
+@pytest.mark.asyncio(loop_scope="session")
 async def test_root_endpoint():
     """Test the root endpoint returns expected response."""
     async with AsyncClient(
@@ -15,7 +19,7 @@ async def test_root_endpoint():
         assert "message" in response.json()
 
 
-@pytest.mark.asyncio
+@pytest.mark.asyncio(loop_scope="session")
 async def test_health_check():
     """Test the health check endpoint."""
     async with AsyncClient(
@@ -26,7 +30,7 @@ async def test_health_check():
         assert response.json() == {"status": "healthy"}
 
 
-@pytest.mark.asyncio
+@pytest.mark.asyncio(loop_scope="session")
 async def test_create_message_direct():
     """Test creating a message directly via the FastAPI endpoint."""
     async with AsyncClient(
@@ -42,7 +46,7 @@ async def test_create_message_direct():
         assert "created_at" in data
 
 
-@pytest.mark.asyncio
+@pytest.mark.asyncio(loop_scope="session")
 async def test_list_messages():
     """Test listing messages."""
     async with AsyncClient(
@@ -59,7 +63,7 @@ async def test_list_messages():
         assert len(messages) > 0
 
 
-@pytest.mark.asyncio
+@pytest.mark.asyncio(loop_scope="session")
 async def test_enqueue_task():
     """
     Test enqueuing a Celery task.
@@ -81,7 +85,7 @@ async def test_enqueue_task():
         assert data["status"] == "PENDING"
 
 
-@pytest.mark.asyncio
+@pytest.mark.asyncio(loop_scope="session")
 async def test_get_task_status():
     """
     Test retrieving task status.

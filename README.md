@@ -400,6 +400,24 @@ docker compose up --build
 # Run all tests
 docker compose exec backend pytest
 
+
+### Running Celery task tests with Docker Compose
+
+To run only the Celery task tests (with coverage) inside the debug backend container use:
+
+```bash
+# run pytest for Celery tasks inside the debug backend container
+docker compose -f docker-compose.debug.yml exec backend-debug \
+   python -m pytest tests/test_celery_tasks.py -v --cov=app.tasks --cov-report=term-missing
+```
+
+This will execute `tests/test_celery_tasks.py` inside the `backend-debug` service and show a coverage report focused on `app.tasks`.
+
+If you want to run the entire test suite inside the backend container (all tests), run:
+
+```bash
+docker compose exec backend python -m pytest -v
+```
 # Run with verbose output
 docker compose exec backend pytest -v
 

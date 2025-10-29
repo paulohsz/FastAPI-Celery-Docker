@@ -1,8 +1,7 @@
-from datetime import datetime
-
 from sqlalchemy import Column, DateTime, Integer, String
 
 from app.db import Base
+from app.helpers import utc_now_naive
 
 
 class Message(Base):
@@ -12,7 +11,7 @@ class Message(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     content = Column(String, nullable=False)
-    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+    created_at = Column(DateTime, default=utc_now_naive, nullable=False)
 
     def __repr__(self):
         return f"<Message(id={self.id}, content={self.content})>"

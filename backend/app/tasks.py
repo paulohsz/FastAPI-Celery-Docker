@@ -1,9 +1,8 @@
-from datetime import datetime
-
 from celery import Task
 
 from app.celery_app import celery_app
 from app.db import SyncSessionLocal
+from app.helpers import utc_now_naive
 from app.models import Message
 
 
@@ -41,7 +40,7 @@ def create_message_task(self, content: str) -> dict:
 
     try:
         # Create new message
-        message = Message(content=content, created_at=datetime.utcnow())
+        message = Message(content=content, created_at=utc_now_naive())
         session.add(message)
         session.commit()
         session.refresh(message)
