@@ -18,5 +18,11 @@ RUN pip install --no-cache-dir -r requirements.txt -r requirements-dev.txt
 # Copy application code
 COPY . .
 
+# Make entrypoint executable
+RUN chmod +x entrypoint.sh
+
+# Set entrypoint
+ENTRYPOINT ["./entrypoint.sh"]
+
 # Default command (can be overridden in docker-compose)
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8060"]
